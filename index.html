@@ -102,21 +102,23 @@
         &copy; 2026 MACHINE TOUCHED CORE. ALL SPECIMENS LOGGED.
     </footer>
 
-    <script>
+  <script>
         const grid = document.getElementById('master-grid');
         const totalSpecimens = 120;
 
         for (let i = 1; i <= totalSpecimens; i++) {
             const link = document.createElement('a');
             link.href = `./Specimens/Specimen-${i}/index.html`;
+            link.target = "_blank"; // Opens in new tab
+            link.rel = "noopener";   // Best practice for performance/security
             link.className = 'specimen-link';
-            link.textContent = i.toString().padStart(3, '0');
             
-            // Safety: Logs the path to console to verify structure
-            link.onclick = (e) => {
-                console.log(`Navigating to: ${link.href}`);
-            };
-
+            const id = i.toString().padStart(3, '0');
+            link.innerHTML = `
+                <span class="specimen-tag">node</span>
+                <span class="specimen-id">${id}</span>
+            `;
+            
             grid.appendChild(link);
         }
     </script>

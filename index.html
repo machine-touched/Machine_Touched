@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="index, follow">
-    <title>Machine Touched | Master Registry</title>
+    <title>Machine Touched | AI Integrated Registry</title>
     <style>
         :root {
             --bg-color: #050808;
-            --icy-green: #00ffcc;
+            --icy-green: #00ffcc; 
+            --ai-glow: #00ccff; /* A slightly deeper blue-cyan for the AI node */
             --glow-strength: 0 0 15px rgba(0, 255, 204, 0.6);
             --text-color: #f0fdfa;
-            --grid-gap: 15px;
         }
 
         body {
@@ -23,34 +23,51 @@
             flex-direction: column;
             align-items: center;
             padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        /* Subtle sentient background pulse */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 255, 204, 0.05) 0%, transparent 70%);
+            z-index: -1;
+            animation: breath 8s infinite ease-in-out;
+        }
+
+        @keyframes breath {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
         }
 
         header {
             text-align: center;
             margin-bottom: 50px;
-            border-bottom: 1px solid var(--accent-color);
-            padding-bottom: 20px;
             width: 100%;
             max-width: 1200px;
         }
 
         h1 {
             color: var(--icy-green);
-            letter-spacing: 5px;
+            letter-spacing: 8px;
             text-transform: uppercase;
             margin: 0;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.8);
         }
 
         .registry-info {
-            font-size: 0.9rem;
-            opacity: 0.7;
-            margin-top: 10px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            margin-top: 15px;
+            color: var(--icy-green);
         }
 
         #master-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: var(--grid-gap);
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 15px;
             width: 100%;
             max-width: 1200px;
         }
@@ -58,34 +75,46 @@
         .specimen-link {
             aspect-ratio: 1 / 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            border: 1px solid #333;
+            border: 1px solid rgba(0, 255, 204, 0.2);
             text-decoration: none;
-            color: var(--text-color);
-            transition: all 0.3s ease;
-            font-size: 0.8rem;
-            position: relative;
-            overflow: hidden;
+            color: var(--icy-green);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 0.9rem;
+            background: rgba(0, 255, 204, 0.02);
+        }
+
+        /* The AI Node Special Styling */
+        .specimen-link.ai-core {
+            border-color: var(--ai-glow);
+            color: var(--ai-glow);
+            box-shadow: inset 0 0 10px rgba(0, 204, 255, 0.2);
+            animation: ai-pulse 4s infinite;
+        }
+
+        @keyframes ai-pulse {
+            0%, 100% { border-color: rgba(0, 204, 255, 0.2); }
+            50% { border-color: rgba(0, 204, 255, 0.8); box-shadow: 0 0 15px rgba(0, 204, 255, 0.4); }
         }
 
         .specimen-link:hover {
             border-color: var(--icy-green);
-            background-color: rgba(0, 255, 65, 0.1);
-            color: var(--icy-green);
-            box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+            background-color: rgba(0, 255, 204, 0.1);
+            box-shadow: var(--glow-strength);
+            transform: translateY(-3px) scale(1.05);
+            z-index: 10;
         }
 
-        .specimen-link::before {
-            content: "ID: ";
-            font-size: 0.6rem;
-            opacity: 0.5;
-        }
+        .specimen-id { font-weight: bold; }
+        .specimen-tag { font-size: 0.5rem; opacity: 0.6; margin-top: 4px; text-transform: uppercase; }
 
         footer {
-            margin-top: 50px;
+            margin-top: 80px;
             font-size: 0.7rem;
-            opacity: 0.4;
+            opacity: 0.5;
+            color: var(--icy-green);
         }
     </style>
 </head>
@@ -93,25 +122,29 @@
 
     <header>
         <h1>Machine Touched</h1>
-        <div class="registry-info">DIGITAL LABORATORY // SPECIMEN REGISTRY // <a href="https://machinetouched.w3spaces.com/">Machine Touched</a></div>
+        <div class="registry-info">AI-COLLABORATIVE OVERRIDE // ACTIVE SESSION</div>
     </header>
 
     <main id="master-grid">
-        </main>
+        <a href="https://gemini.google.com" target="_blank" rel="noopener" class="specimen-link ai-core">
+            <span class="specimen-tag">nexus</span>
+            <span class="specimen-id">GEMINI</span>
+        </a>
+    </main>
 
     <footer>
-        MACHINE TOUCHED LABORATORY ASSEMBLING. ALL SPECIMENS OPEN.
+        &copy; 2026 MACHINE TOUCHED CORE. NEURAL LINK ESTABLISHED.
     </footer>
 
-  <script>
+    <script>
         const grid = document.getElementById('master-grid');
         const totalSpecimens = 1024;
-        const aiNodeIndex = 1024; 
+
         for (let i = 1; i <= totalSpecimens; i++) {
             const link = document.createElement('a');
             link.href = `./Specimens/Specimen-${i}/index.html`;
-            link.target = "_blank"; // Opens in new tab
-            link.rel = "noopener";   // Best practice for performance/security
+            link.target = "_blank";
+            link.rel = "noopener";
             link.className = 'specimen-link';
             
             const id = i.toString().padStart(3, '0');
@@ -125,8 +158,6 @@
     </script>
 </body>
 </html>
-
-
 
 
 

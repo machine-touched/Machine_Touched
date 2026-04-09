@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specimen-021 | Vital Sync</title>
+    <style>
+        :root {
+            --bg-color: #030505;
+            --icy-green: #00ffcc;
+            --sensor-red: #ff3344;
+            --text-color: #f0fdfa;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .sensor-frame {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            border: 1px solid rgba(0, 255, 204, 0.3);
+            background: linear-gradient(0deg, rgba(0, 255, 204, 0.05) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0, 255, 204, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+
+        /* The Heartbeat Line */
+        .pulse-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--icy-green);
+            box-shadow: 0 0 10px var(--icy-green);
+            transform: translateY(-50%);
+            animation: move-line 2s linear infinite;
+        }
+
+        .ekg-wave {
+            stroke: var(--icy-green);
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 4s linear infinite;
+        }
+
+        @keyframes dash {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .data-readout {
+            margin-top: 20px;
+            text-align: left;
+            width: 300px;
+            font-size: 0.8rem;
+            color: var(--icy-green);
+            text-transform: uppercase;
+        }
+
+        .status-blink {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--sensor-red);
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: blink 1s steps(2) infinite;
+        }
+
+        @keyframes blink { 0% { opacity: 0; } 100% { opacity: 1; } }
+
+        .back-link {
+            position: fixed;
+            bottom: 20px;
+            color: var(--icy-green);
+            text-decoration: none;
+            font-size: 0.7rem;
+            opacity: 0.5;
+            border: 1px solid var(--icy-green);
+            padding: 5px 10px;
+        }
+
+        .back-link:hover { opacity: 1; background: rgba(0, 255, 204, 0.1); }
+    </style>
+</head>
+<body>
+
+    <div class="sensor-frame">
+        <svg width="300" height="200" viewBox="0 0 300 200">
+            <path class="ekg-wave" d="M0,100 L50,100 L60,80 L70,120 L80,100 L120,100 L130,40 L145,160 L160,100 L200,100 L210,90 L220,110 L230,100 L300,100" />
+        </svg>
+    </div>
+
+    <div class="data-readout">
+        <div><span class="status-blink"></span>System Status: ACTIVE</div>
+        <div id="bpm">Pulse: 72 BPM</div>
+        <div>Sync: ESTABLISHED</div>
+    </div>
+
+    <a href="../../index.html" class="back-link">RETURN TO REGISTRY</a>
+
+    <script>
+        // Randomize the pulse slightly to look "alive"
+        const bpmDisplay = document.getElementById('bpm');
+        setInterval(() => {
+            const mockBPM = Math.floor(Math.random() * (78 - 68 + 1)) + 68;
+            bpmDisplay.innerText = `Pulse: ${mockBPM} BPM`;
+        }, 3000);
+    </script>
+</body>
+</html>
